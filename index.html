@@ -3,27 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work in Progress</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f0f0f0;
-        }
-        .banner {
-            background-color: #ffcc00;
-            color: #333;
-            padding: 20px;
-            border-radius: 5px;
-            font-size: 24px;
-            font-weight: bold;
-        }
-    </style>
+    <title>Acutis24 Essay</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="banner">
-        This is a work in progress
-    </div>
+    <header class="site-header">
+        <div class="site-title">Acutis24 Essay</div>
+        <p class="site-subtitle">A digital adaptation for your essay file.</p>
+    </header>
+
+    <nav class="site-nav">
+        <a href="#essay">Essay</a>
+        <a href="#about">About</a>
+        <a href="#instructions">Instructions</a>
+    </nav>
+
+    <main>
+        <section id="essay" class="content-section">
+            <h1>Your Essay</h1>
+            <div id="essay-container" class="essay-container">
+                <p class="loading">Loading essay content…</p>
+            </div>
+        </section>
+
+        <section id="about" class="content-section">
+            <h2>About this page</h2>
+            <p>This site reads your essay from <code>essay.txt</code> and displays it as a formatted article.</p>
+        </section>
+
+        <section id="instructions" class="content-section">
+            <h2>How to use</h2>
+            <ol>
+                <li>Open <code>essay.txt</code> in this repository.</li>
+                <li>Replace the placeholder text with your essay.</li>
+                <li>Save changes and refresh the page.</li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="site-footer">Built for a digital essay adaptation.</footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
