@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = paragraphs;
         })
         .catch(error => {
-            container.innerHTML = `<p class="error">Unable to load essay: ${escapeHtml(error.message)}</p>`;
+            let message = `Unable to load essay: ${escapeHtml(error.message)}`;
+            if (window.location.protocol === 'file:') {
+                message += ' (If you opened this page directly from your file system, some browsers block loading local files. Use a local web server or GitHub Pages.)';
+            }
+            container.innerHTML = `<p class="error">${message}</p>`;
         });
 });
 
