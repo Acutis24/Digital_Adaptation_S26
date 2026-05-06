@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .slice(cursor, wcIdx > -1 ? wcIdx : undefined)
                 .filter(l => l.trim());
 
-            // Byline: Author — Course — Date  (skip professor name)
+            // Byline: Author — Course — Date
             const [author, , course, date] = header;
             if (bylineEl && author) {
                 bylineEl.textContent = [author, course, date].filter(Boolean).join(' — ');
@@ -37,9 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            container.innerHTML = bodyLines
-                .map(p => `<p>${escapeHtml(p)}</p>`)
-                .join('');
+            // Image marker syntax: [image: filename.jpg | Caption text]
+            const IMAGE_RE = /^\[image:\s*([^\]|]+?)\s*(?:\|\s*([^\]]*?))?\s*\]$/i;
+
+            container.innerHTML = bodyLines.map(line => {
+                const m = line.match(IMAGE_RE);
+                if (m) {
+                    const src     = escapeHtml(m[1].trim());
+                    const caption = m[2] ? m[2].trim() : '';
+                    return `<figure>` +
+                           `<img src="${src}" alt="${escapeHtml(caption)}">` +
+                           (caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : '') +
+                           `</figure>`;
+                }
+                return `<p>${escapeHtml(line)}</p>`;
+            }).join('');
         })
         .catch(err => {
             let msg = escapeHtml(String(err));
