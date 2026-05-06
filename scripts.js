@@ -1,44 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('essay-container');
+    const bylineEl  = document.getElementById('article-byline');
 
     fetch('essay.txt')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Could not load essay.txt');
-            }
-            return response.text();
+        .then(r => {
+            if (!r.ok) throw new Error('Could not load essay.txt');
+            return r.text();
         })
         .then(text => {
-            if (!text.trim()) {
-                container.innerHTML = '<p class="empty">The essay file is empty. Edit <code>essay.txt</code> and refresh.</p>';
+            const lines = text.split(/\r?\n/);
+
+            // Extract MLA header: first 4 non-empty lines
+            const header = [];
+            let cursor = 0;
+            while (header.length < 4 && cursor < lines.length) {
+                if (lines[cursor].trim()) header.push(lines[cursor].trim());
+                cursor++;
+            }
+
+            // Find the Works Cited divider
+            const wcIdx = lines.findIndex(l => l.trim() === 'Works Cited');
+
+            // Essay body: non-empty lines between header and Works Cited
+            const bodyLines = lines
+                .slice(cursor, wcIdx > -1 ? wcIdx : undefined)
+                .filter(l => l.trim());
+
+            // Byline: Author — Course — Date  (skip professor name)
+            const [author, , course, date] = header;
+            if (bylineEl && author) {
+                bylineEl.textContent = [author, course, date].filter(Boolean).join(' — ');
+            }
+
+            if (!bodyLines.length) {
+                container.innerHTML = '<p class="status">No essay content found.</p>';
                 return;
             }
 
-            const paragraphs = text
-                .trim()
-                .split(/\r?\n\r?\n/)
-                .map(paragraph => `<p>${escapeHtml(paragraph.trim()).replace(/\r?\n/g, '<br>')}</p>`)
+            container.innerHTML = bodyLines
+                .map(p => `<p>${escapeHtml(p)}</p>`)
                 .join('');
-
-            container.innerHTML = paragraphs;
         })
-        .catch(error => {
-            let message = `Unable to load essay: ${escapeHtml(error.message)}`;
+        .catch(err => {
+            let msg = escapeHtml(String(err));
             if (window.location.protocol === 'file:') {
-                message += ' (If you opened this page directly from your file system, some browsers block loading local files. Use a local web server or GitHub Pages.)';
+                msg += ' — View the site via GitHub Pages or a local server, not directly from the file system.';
             }
-            container.innerHTML = `<p class="error">${message}</p>`;
+            container.innerHTML = `<p class="error">${msg}</p>`;
         });
 });
 
-function escapeHtml(value) {
-    return value.replace(/[&<>"']/g, char => {
-        return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#39;'
-        }[char];
-    });
+function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+    );
 }

@@ -1,105 +1,179 @@
-body {
-    margin: 0;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
-    color: #102a43;
+:root {
+    --bg: #111111;
+    --border: #2a2a2a;
+    --text: #e0e0e0;
+    --text-muted: #888888;
+    --text-faint: #444444;
 }
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
 .site-header {
-    padding: 40px 24px 24px;
-    text-align: center;
-    background: #0f172a;
-    color: #f8fafc;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
 }
 
-.site-title {
-    font-size: 2.4rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-}
-
-.site-subtitle {
-    margin: 12px auto 0;
+.site-header .inner {
     max-width: 720px;
-    color: #e2e8f0;
-    font-size: 1rem;
-    line-height: 1.6;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.site-nav {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    padding: 18px 24px;
-    background: #f8fafc;
-    border-bottom: 1px solid #cbd5e1;
+.site-logo {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
 .site-nav a {
-    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
     text-decoration: none;
-    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .site-nav a:hover {
-    color: #1d4ed8;
+    color: var(--text);
 }
 
+/* ── Article ── */
 main {
-    max-width: 900px;
-    margin: 32px auto;
-    padding: 0 24px 48px;
+    padding: 72px 24px 96px;
 }
 
-.content-section {
-    margin-bottom: 36px;
-    padding: 24px;
-    background: rgba(255, 255, 255, 0.92);
-    border-radius: 18px;
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+article {
+    max-width: 680px;
+    margin: 0 auto;
 }
 
-.content-section h1,
-.content-section h2 {
-    margin-top: 0;
-    color: #0f172a;
+.article-head {
+    margin-bottom: 52px;
 }
 
-.essay-container {
-    min-height: 180px;
-    line-height: 1.8;
+.article-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: normal;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 18px;
 }
 
-.essay-container p {
-    margin: 1rem 0;
+.article-byline {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    margin-bottom: 28px;
 }
 
-.loading,
-.empty,
-.error {
-    color: #334155;
+.article-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+}
+
+/* ── Body text ── */
+.article-body p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: 1.6em;
+    color: var(--text);
+}
+
+.article-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* ── Image support ── */
+.article-body figure {
+    margin: 2.5em 0;
+}
+
+.article-body figure img {
+    width: 100%;
+    display: block;
+}
+
+.article-body figcaption {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+/* ── Works Cited entries ── */
+.wc-entry {
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 1.2em;
+    padding-left: 2em;
+    text-indent: -2em;
+    color: var(--text);
+}
+
+/* ── Article footer ── */
+.article-end {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+}
+
+.wc-link {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+}
+
+.wc-link:hover {
+    color: var(--text);
+}
+
+/* ── Status / error ── */
+.status {
+    color: var(--text-muted);
     font-style: italic;
 }
 
 .error {
-    color: #b91c1c;
+    color: #ff6b6b;
+    font-style: italic;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
 }
 
+/* ── Footer ── */
 .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
     text-align: center;
-    padding: 18px 24px 36px;
-    color: #475569;
-    font-size: 0.95rem;
-}
-
-code {
-    background: #e2e8f0;
-    padding: 0.15rem 0.35rem;
-    border-radius: 6px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
