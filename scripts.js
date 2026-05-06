@@ -38,16 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Image marker syntax: [image: filename.jpg | Caption text]
-            const IMAGE_RE = /^\[image:\s*([^\]|]+?)\s*(?:\|\s*([^\]]*?))?\s*\]$/i;
-
             container.innerHTML = bodyLines.map(line => {
-                const m = line.match(IMAGE_RE);
-                if (m) {
-                    const src     = escapeHtml(m[1].trim());
-                    const caption = m[2] ? m[2].trim() : '';
+                const trimmed = line.trim();
+                if (trimmed.startsWith('[image:') && trimmed.endsWith(']')) {
+                    const inner   = trimmed.slice(7, -1);
+                    const pipe    = inner.indexOf('|');
+                    const src     = escapeHtml((pipe > -1 ? inner.slice(0, pipe) : inner).trim());
+                    const caption = pipe > -1 ? escapeHtml(inner.slice(pipe + 1).trim()) : '';
                     return `<figure>` +
-                           `<img src="${src}" alt="${escapeHtml(caption)}">` +
-                           (caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : '') +
+                           `<img src="${src}" alt="${caption}">` +
+                           (caption ? `<figcaption>${caption}</figcaption>` : '') +
                            `</figure>`;
                 }
                 return `<p>${escapeHtml(line)}</p>`;
